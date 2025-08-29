@@ -1,22 +1,10 @@
 <script setup>
-import {onBeforeMount, ref} from 'vue';
-import { useRouter } from 'vue-router';
-import UsernameComponent from '../components/UsernameComponent.vue';
-import PasswordComponent from '../components/PasswordComponent.vue';
-// this is a real page but has dummy code for demo purposes
-const email = ref()
-
-onBeforeMount(async () => {console.log("hello world")})
+import LoginComponent from "../components/LoginComponent.vue";
 </script>
 
 <template>
-<UsernameComponent :email-address= "email"/>
-<PasswordComponent/>
-  <h1>Login</h1>
-  <input v-model="email"/>
-  <label v-if="email">email:{{email}}</label>
-  <a href="/signup"><button>Login</button></a>
+  <div class="d-flex flex-column align-items-center mt-5">
+    <h2 class="mb-4 fw-bold text-center">Login</h2>
+    <LoginComponent />
+  </div>
 </template>
-
-<style scoped>
-</style>

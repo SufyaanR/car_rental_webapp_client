@@ -1,15 +1,25 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-
-// this is a real page but has dummy code for demo purposes
+import SignUpComponent from "../components/SignUpComponent.vue";
 </script>
 
 <template>
-  <h1>Sign Up</h1>
-  <p>Welcome to my signup page</p>
-  <a href="/login"><button>Login</button></a>
+  <div class="d-flex flex-column align-items-center">
+    <!-- Sign Up Title -->
+    <h2 class="signup-title">Sign Up</h2>
+
+    <!-- Form -->
+    <SignUpComponent />
+  </div>
 </template>
 
 <style scoped>
+.container {
+  max-width: 900px;
+}
+
+.signup-title {
+  margin-top: 40px;   /* pushes title down from top */
+  margin-bottom: 20px; /* adds space below title */
+  font-weight: bold;
+}
 </style>
