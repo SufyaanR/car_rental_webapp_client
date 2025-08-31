@@ -5,12 +5,10 @@
 
 <template>
   <header class="navbar">
-    <!-- Logo Icon Link -->
     <a href="/" class="logo">
       <i class="fas fa-car-side"></i>
     </a>
 
-    <!-- Nav Links -->
     <nav class="nav-links">
       <a href="/about">Create Rental</a>
       <a href="/contact">View Bookings</a>
@@ -24,9 +22,8 @@
 <style scoped>
 .navbar {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  background-color: #7F0000; /* dark red */
+  background-color: #7F0000;
   padding: 10px 30px;
   width: 100%;
 }
@@ -61,8 +58,4 @@
   text-decoration: underline;
 }
 
-.divider {
-  color: white;
-  margin: 0 5px;
-}
 </style>

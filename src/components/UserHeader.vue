@@ -60,9 +60,4 @@
 .nav-links a:hover {
   text-decoration: underline;
 }
-
-.divider {
-  color: white;
-  margin: 0 5px;
-}
 </style>

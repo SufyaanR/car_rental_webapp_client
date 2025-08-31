@@ -1,4 +1,3 @@
-
 <script setup>
 import RentalProviderHeader from "../components/RentalProviderHeader.vue";
 import Footer from "../components/Footer.vue";
@@ -6,27 +5,43 @@ import Footer from "../components/Footer.vue";
 
 <template>
   <div class="wrapper">
-    <RentalProviderHeader/>
-      <div class="content">
-        <router-view />
-      </div>
-    <Footer/>
+    <RentalProviderHeader />
+
+    <div class="content">
+      <router-view />
+    </div>
+
+    <Footer />
   </div>
 </template>
 
 <style scoped>
-.wrapper{
+.wrapper {
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .content {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+  padding: 90px 20px 90px;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.wrapper > header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.wrapper > footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 </style>

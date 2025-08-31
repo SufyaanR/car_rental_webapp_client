@@ -1,4 +1,91 @@
 <script setup>
+import {onBeforeMount, ref} from "vue";
+import axios from "axios";
+import {createCar, getUser} from "../routes/routes.js";
+
+const brand = ref();
+const model = ref();
+const type = ref();
+const pricePerDay = ref(Number(0));
+const seatCapacity = ref(Number(0));
+const bootCapacity= ref(Number(0));
+const engineCapacity = ref(Number(0));
+const transmission = ref();
+const collectionLocation = ref();
+const description = ref();
+const image = ref();
+const proUserId = ref(Number(2));
+const proUser = ref(null);
+
+// const addCar = async () => {
+//   try {
+//     const formData = new FormData();
+//     formData.append("brand", brand.value);
+//     formData.append("model", model.value);
+//     formData.append("type", type.value);
+//     formData.append("pricePerDay", pricePerDay.value);
+//     formData.append("seatCapacity", seatCapacity.value);
+//     formData.append("bootCapacity", bootCapacity.value);
+//     formData.append("engineCapacity", engineCapacity.value);
+//     formData.append("transmission", transmission.value);
+//     formData.append("description", description.value);
+//     formData.append("collectionLocation", collectionLocation.value);
+//     formData.append("isAvailable", true);
+//     formData.append("businessUserId", 1);
+//
+//     const res = await axios.post("http://localhost:8080/api/cars", formData, {
+//       headers: { "Content-Type": "multipart/form-data" },
+//     });
+//
+//     alert("Car added successfully!");
+//     console.log("Car added:", res.data);
+//   } catch (err) {
+//     console.error("Error adding car:", err.response?.data || err);
+//     alert("Failed to add car");
+//   }
+// };
+
+onBeforeMount(async () => {
+  proUser.value = await getUser(proUserId.value);
+});
+
+async function onCreateCar(){
+  const car = {
+    image: image.value,
+    brand: brand.value,
+    model: model.value,
+    type: type.value,
+    pricePerDay: pricePerDay.value,
+    seatCapacity: seatCapacity.value,
+    bootCapacity: bootCapacity.value,
+    engineCapacity: engineCapacity.value,
+    transmission: transmission.value,
+    collectionLocation: collectionLocation.value,
+    description: description.value,
+    isAvailable: true,
+    proUser: proUser.value
+  };
+
+  try {
+    const createdCar = await createCar(car);
+    console.log("Car added: ", createdCar);
+    alert("Car added successfully");
+  }catch (err){
+    console.error("Error: ", err);
+    alert("Something went wrong with adding a car");
+  }
+}
+
+function onFileChange(e) {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.onload = () => {
+    // reader.result will look like "data:image/png;base64,iVBORw0..."
+    // We only want the Base64 part after the comma
+    image.value = reader.result.split(",")[1];
+  };
+  reader.readAsDataURL(file);
+}
 
 </script>
 
@@ -8,57 +95,59 @@
     <div class="form-content">
       <!-- RIGHT: Image -->
       <div class="imageContainer">
-        <img src="https://www.pallenz.co.nz/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png" alt="Rental Car Image"/>
+        <img v-if="image" :src="'data:image/jpeg;base64,' + image"  alt="image"/>
+        <img v-else src="https://www.pallenz.co.nz/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png" alt="Rental Car Image"/>
+       
       </div>
       <!-- LEFT: Inputs -->
       <div class="inputContainer">
         <div class="form-group">
           <label>Brand</label>
-          <input placeholder="Brand"/>
+          <input placeholder="Brand" v-model="brand"/>
         </div>
         <div class="form-group">
           <label>Model</label>
-          <input placeholder="Model"/>
+          <input placeholder="Model" v-model="model"/>
         </div>
         <div class="form-group">
           <label>Type</label>
-          <input placeholder="Type"/>
+          <input placeholder="Type" v-model="type"/>
         </div>
         <div class="form-group">
           <label>Price Per Day</label>
-          <input placeholder="Price Per Day"/>
+          <input placeholder="Price Per Day" type="number" v-model="pricePerDay"/>
         </div>
         <div class="form-group">
           <label>Seat Capacity</label>
-          <input placeholder="Seat Capacity"/>
+          <input placeholder="Seat Capacity" type="number" v-model="seatCapacity"/>
         </div>
         <div class="form-group">
           <label>Boot Capacity</label>
-          <input placeholder="Boot Capacity"/>
+          <input placeholder="Boot Capacity" type="number" v-model="bootCapacity"/>
         </div>
         <div class="form-group">
           <label>Engine Capacity</label>
-          <input placeholder="Engine Capacity"/>
+          <input placeholder="Engine Capacity" type="number" v-model="engineCapacity"/>
         </div>
         <div class="form-group">
           <label>Transmission</label>
-          <input placeholder="Transmission"/>
+          <input placeholder="Transmission" v-model="transmission"/>
         </div>
         <div class="form-group">
           <label>Collection Location</label>
-          <input placeholder="Collection Location"/>
+          <input placeholder="Collection Location" v-model="collectionLocation"/>
         </div>
         <div class="form-group">
           <label>Description</label>
-          <textarea class="form-control" placeholder="Description"></textarea>
+          <textarea class="form-control" placeholder="Description" v-model="description"></textarea>
         </div>
         <div class="form-group">
           <label for="inputGroupFile01">Upload Image</label>
-          <input type="file" class="form-control" id="inputGroupFile01">
+          <input type="file" class="form-control" id="inputGroupFile01" @change="onFileChange">
         </div>
 
         <div class="button-row">
-          <button class="add">Add Rental Car</button>
+          <button class="add" @click="onCreateCar">Add Rental Car</button>
         </div>
       </div>
 
@@ -78,7 +167,7 @@
 }
 
 .form-wrapper h1 {
-  text-align: center;        /* centers the heading */
+  text-align: center;
   margin-bottom: 50px;
 }
 
@@ -99,8 +188,8 @@
 }
 
 .form-group {
-  flex: 1 1 calc(25% - 20px); /* 4 per row, minus the gap */
-  box-sizing: border-box;     /* so padding/border don’t break width */
+  flex: 1 1 calc(25% - 20px);
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
