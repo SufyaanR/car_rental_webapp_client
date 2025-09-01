@@ -9,8 +9,8 @@ export async function createCar(car) {
     return await res.json();
 }
 
-export async function getCar(id){
-    const res = await fetch("http://localhost:8080/api/cars/${id}", {
+export async function getCar(id) {
+    const res = await fetch(`http://localhost:8080/api/cars/${id}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -19,7 +19,6 @@ export async function getCar(id){
     });
     return await res.json();
 }
-
 //User
 export async function getUser(id) {
     const res = await fetch(`http://localhost:8080/api/pro-users/${id}`, {
