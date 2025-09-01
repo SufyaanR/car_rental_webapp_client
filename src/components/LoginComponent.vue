@@ -1,81 +1,67 @@
+
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
 const form = ref({
-  userType: "BASIC", // default selection
   username: "",
-  password: "",
-  businessName: "",
-  registrationNumber: ""
+  password: ""
 });
 
-const handleSubmit = () => {
+const handleLogin = () => {
   console.log("Login Data:", form.value);
-  if (form.value.userType === "BUSINESS") {
-    alert(`Welcome Business: ${form.value.businessName}`);
-  } else {
-    alert(`Welcome User: ${form.value.username}`);
-  }
+  alert(`Welcome back, ${form.value.username}!`);
 };
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" class="container mt-5">
-    <div class="row g-3 justify-content-center">
-      <!-- User Type Selection -->
-      <div class="col-md-6">
-        <label class="form-label">User Type</label>
-        <select v-model="form.userType" class="form-select">
-          <option value="BASIC">Basic User</option>
-          <option value="PRO">Pro User</option>
-          <option value="BUSINESS">Business User</option>
-        </select>
-      </div>
-
-      <!-- Basic + Pro Users -->
-      <template v-if="form.userType === 'BASIC' || form.userType === 'PRO'">
-        <div class="col-md-6">
+  <form @submit.prevent="handleLogin" class="container login-form">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6 col-lg-5">
+        <!-- Username -->
+        <div class="mb-3">
           <label class="form-label">Username</label>
-          <input v-model="form.username" type="text" class="form-control" required />
+          <input
+              v-model="form.username"
+              type="text"
+              class="form-control"
+              placeholder="Enter username"
+              required
+          />
         </div>
-        <div class="col-md-6">
+
+        <!-- Password -->
+        <div class="mb-3">
           <label class="form-label">Password</label>
-          <input v-model="form.password" type="password" class="form-control" required />
+          <input
+              v-model="form.password"
+              type="password"
+              class="form-control"
+              placeholder="Enter password"
+              required
+          />
         </div>
-      </template>
 
-      <!-- Business Users -->
-      <template v-if="form.userType === 'BUSINESS'">
-        <div class="col-md-6">
-          <label class="form-label">Business Name</label>
-          <input v-model="form.businessName" type="text" class="form-control" required />
+        <!-- Login Button -->
+        <div class="text-center mt-4">
+          <button type="submit" class="btn login-btn">Login</button>
         </div>
-        <div class="col-md-6">
-          <label class="form-label">Registration Number</label>
-          <input v-model="form.registrationNumber" type="text" class="form-control" required />
-        </div>
-      </template>
-
-      <!-- Submit Button -->
-      <div class="col-12 text-center mt-4">
-        <button type="submit" class="btn login-btn px-5">Login</button>
       </div>
     </div>
   </form>
 </template>
 
 <style scoped>
-.container {
-  max-width: 700px;
+.login-form {
+  margin-top: 30px;
 }
 
 .login-btn {
-  background-color: #7F0000; /* dark red */
+  background-color: #7F0000;
   color: white;
   border: none;
+  padding: 8px 24px;
 }
-
 .login-btn:hover {
-  background-color: #660000;
+  background-color: #a00000;
 }
 </style>
