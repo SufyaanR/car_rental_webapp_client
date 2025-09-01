@@ -31,3 +31,14 @@ export async function getUser(id) {
     });
     return await res.json();
 }
+
+// Create new user
+export async function createUser(user) {
+    const res = await fetch("http://localhost:8080/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+        mode: "cors"
+    });
+    return await res.json();
+}
