@@ -1,64 +1,85 @@
 <script setup>
+import {onMounted, ref} from "vue";
+import {getCar} from "../routes/routes.js";
 
+const carId = ref(6);
+const car = ref({
+  image: null,
+  brand: '',
+  model: '',
+  type: '',
+  pricePerDay: 0,
+  seatCapacity: 0,
+  bootCapacity: 0,
+  engineCapacity: 0,
+  transmission: '',
+  description: '',
+  collectionLocation: ''
+});
+
+onMounted(async () => {
+  car.value = await getCar(carId.value);
+});
 </script>
 
 <template>
-  <div class="form-wrapper">
+  <div class="form-wrapper" v-if="car">
     <h1>View Car Details</h1>
     <div class="form-content">
       <div class="imageContainer">
-        <img src="https://www.hertz.co.za/media/2025/02/ddar-bmw-fsc-632x422-1-316x211.png" alt="BMW 120i Hatchback"/>
+        <img v-if="car.image" :src="'data:image/jpeg;base64,' + car.image" alt="Rental Car Image" />
+        <img v-else src="https://www.pallenz.co.nz/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png" alt="Rental Car Image"/>
       </div>
 
       <div class="inputContainer">
         <div class="form-group">
           <label>Brand</label>
-          <span>BMW</span>
+          <span>{{car.brand}}</span>
         </div>
 
         <div class="form-group">
           <label>Model</label>
-          <span>120i</span>
+          <span>{{car.model}}</span>
         </div>
 
         <div class="form-group">
           <label>Type</label>
-          <span>Hatchback</span>
+          <span>{{car.type}}</span>
         </div>
 
         <div class="form-group">
           <label>Price Per Day</label>
-          <span>R300</span>
+          <span>{{car.pricePerDay}}</span>
         </div>
 
         <div class="form-group">
           <label>Seat Capacity</label>
-          <span>5</span>
+          <span>{{car.seatCapacity}}</span>
         </div>
 
         <div class="form-group">
           <label>Boot Capacity</label>
-          <span>50L</span>
+          <span>{{car.bootCapacity}}</span>
         </div>
 
         <div class="form-group">
           <label>Engine Capacity</label>
-          <span>2L</span>
+          <span>{{car.engineCapacity}}</span>
         </div>
 
         <div class="form-group">
           <label>Transmission</label>
-          <span>6-Speed Automatic</span>
+          <span>{{car.transmission}}</span>
         </div>
 
         <div class="form-group full-width">
           <label>Collection Location</label>
-          <span>Hanover Street, CBD</span>
+          <span>{{car.collectionLocation}}</span>
         </div>
 
         <div class="form-group full-width">
           <label>Description</label>
-          <span>A luxurious car, perfect for sight seeing</span>
+          <span>{{car.description}}</span>
         </div>
 
         <div class="button-row">
