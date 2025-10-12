@@ -26,7 +26,6 @@ import Footer from "../components/Footer.vue";
   flex: 1;
   padding: 90px 20px 90px;
   overflow-y: auto;
-  background: #fff;
 }
 
 .wrapper > header {

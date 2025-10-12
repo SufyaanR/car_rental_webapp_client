@@ -67,7 +67,7 @@ async function onCreateCar(){
   };
 
   try {
-    const createdCar = await createCar(car);
+      const createdCar = await createCar(car);
     console.log("Car added: ", createdCar);
     alert("Car added successfully");
   }catch (err){
@@ -99,7 +99,6 @@ function onFileChange(e) {
         <img v-else src="https://www.pallenz.co.nz/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png" alt="Rental Car Image"/>
        
       </div>
-      <!-- LEFT: Inputs -->
       <div class="inputContainer">
         <div class="form-group">
           <label>Brand</label>

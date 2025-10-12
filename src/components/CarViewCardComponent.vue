@@ -2,7 +2,7 @@
 import {onMounted, ref} from "vue";
 import {getCar} from "../routes/routes.js";
 
-const carId = ref(6);
+const carId = ref(33);
 const car = ref({
   image: null,
   brand: '',
