@@ -1,8 +1,12 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import {getCar} from "../routes/routes.js";
+import {useRoute} from "vue-router";
 
-const carId = ref(33);
+
+const route = useRoute();
+const carId = ref(route.params.id); // get id from URL
+
 const car = ref({
   image: null,
   brand: '',
@@ -83,7 +87,7 @@ onMounted(async () => {
         </div>
 
         <div class="button-row">
-          <button class="add">Checkout</button>
+          <button class="add">Book Now</button>
         </div>
       </div>
     </div>

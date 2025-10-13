@@ -25,9 +25,7 @@ const routes = [
             {path: 'login', name: 'LoginPage', component: LoginPage},
             {path: 'signup', name: 'SignUpPage', component: SignUpPage},
             {path: 'cars', name: 'CarListPage', component: CarListPage},
-            {path: 'car-view', name: 'CarViewPage', component: CarViewPage},
-            //{path: 'car/:id', name: 'CarViewPage', component: CarViewPage},
-            
+            {path: 'car/:id', name: 'CarViewPage', component: CarViewPage}
         ]},
     {path: '/:catchAll(.*)*', name: "PageNotFound", component: PageNotFound} //This catches our error page not found
 ];

@@ -39,6 +39,21 @@ export async function deleteCar(id) {
   return res;
 }
 
+export async function getAllCars() {
+    const res = await fetch("http://localhost:8080/api/cars", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        mode: "cors",
+    });
+    if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    return await res.json();
+}
+
+
 //User
 export async function getUser(id) {
     const res = await fetch(`http://localhost:8080/api/pro-users/${id}`, {
