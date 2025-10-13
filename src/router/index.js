@@ -10,6 +10,9 @@ import RentalProviderPaymentsPage from '../pages/RentalProviderPaymentsPage.vue'
 import RentalProviderBookingsPage from '../pages/RentalProviderBookingsPage.vue';
 import RentalProviderLayout from "../layouts/RentalProviderLayout.vue";
 import UserLayout from "../layouts/UserLayout.vue";
+import HomePage from "../pages/HomePage.vue";
+import AboutUsPage from "../pages/AboutUsPage.vue";
+import ContactUsPage from "../pages/ContactUsPage.vue";
 
 //Renders page components when user navigates
 const routes = [
@@ -25,7 +28,10 @@ const routes = [
             {path: 'login', name: 'LoginPage', component: LoginPage},
             {path: 'signup', name: 'SignUpPage', component: SignUpPage},
             {path: 'cars', name: 'CarListPage', component: CarListPage},
-            {path: 'car/:id', name: 'CarViewPage', component: CarViewPage}
+            {path: 'car/:id', name: 'CarViewPage', component: CarViewPage},
+            {path: 'home', name: 'HomePage', component: HomePage},
+            {path: 'about-us', name: 'AboutUsPage', component: AboutUsPage},
+            {path: 'contact', name: 'ContactUsPage', component: ContactUsPage},
         ]},
     {path: '/:catchAll(.*)*', name: "PageNotFound", component: PageNotFound} //This catches our error page not found
 ];

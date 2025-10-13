@@ -1,23 +1,28 @@
-
 <script setup>
-
 </script>
 
 <template>
   <header class="navbar">
-    <a href="/" class="logo">
+    <router-link to="/rental-provider/create" class="logo">
       <i class="fas fa-car-side"></i>
-    </a>
+    </router-link>
 
     <nav class="nav-links">
-      <a href="/about">Create Rental</a>
-      <a href="/contact">View Bookings</a>
-      <a href="/rent">View Payments</a>
-      <a href="/list">My Account</a>
-      <a href="/login">Login</a>
+      <router-link to="/rental-provider/create">Create Rental</router-link>
+      <router-link :to="`/rental-provider/bookings/${userId}`">View Bookings</router-link>
+      <router-link :to="`/rental-provider/payments/${userId}`">View Payments</router-link>
+      <router-link to="/rental-provider/my-account">My Account</router-link>
+      <router-link to="/login">Logout</router-link>
     </nav>
   </header>
 </template>
+
+<script setup>
+import { ref } from "vue";
+
+// Replace this with actual logged-in user's ID dynamically
+const userId = ref(123);
+</script>
 
 <style scoped>
 .navbar {
@@ -54,8 +59,9 @@
   text-decoration: none;
 }
 
-.nav-links a:hover {
-  text-decoration: underline;
+.nav-links a:hover,
+.nav-links .router-link-active {
+  color: #282121;
+  font-weight: bold;
 }
-
 </style>

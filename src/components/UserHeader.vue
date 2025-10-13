@@ -1,22 +1,21 @@
-
 <script setup>
-
+import { RouterLink } from 'vue-router'
 </script>
 
 <template>
   <header class="navbar">
     <!-- Logo Icon Link -->
-    <a href="/" class="logo">
+    <RouterLink to="/user/home" class="logo">
       <i class="fas fa-car-side"></i>
-    </a>
+    </RouterLink>
 
     <!-- Nav Links -->
     <nav class="nav-links">
-      <a href="/about">Home</a>
-      <a href="/contact">Rent Cars</a>
-      <a href="/rent">Contact Us</a>
-      <a href="/list">About Us</a>
-      <a href="/login">Login</a>
+      <RouterLink to="/user/home">Home</RouterLink>
+      <RouterLink to="/user/cars">Rent Cars</RouterLink>
+      <RouterLink to="/user/contact">Contact Us</RouterLink>
+      <RouterLink to="/user/about-us">About Us</RouterLink>
+      <RouterLink to="/user/login">Login</RouterLink>
     </nav>
   </header>
 </template>
@@ -51,13 +50,16 @@
   gap: 20px;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-links .router-link-active {
   color: white;
   font-weight: bold;
   text-decoration: none;
 }
 
-.nav-links a:hover {
-  text-decoration: underline;
+.nav-links a:hover,
+.nav-links .router-link-active {
+  color: #282121;
+  font-weight: bold;
 }
 </style>
