@@ -16,6 +16,7 @@ import ContactUsPage from "../pages/ContactUsPage.vue";
 
 //Renders page components when user navigates
 const routes = [
+    { path: '/', redirect: '/user/home' },
     {path: '/rental-provider', component: RentalProviderLayout, children: [
             {path: 'create', name: 'RentalProviderCreatePage', component: RentalProviderCreatePage},
             { path: 'update-car/:id', name: 'RentalProviderUpdatePage', component: RentalProviderUpdatePage },

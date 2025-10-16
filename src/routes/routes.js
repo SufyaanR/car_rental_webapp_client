@@ -97,11 +97,89 @@ export async function getBusinessUser(id) {
 }
 
 // Create new user
-export async function createUser(user) {
-    const res = await fetch("http://localhost:8080/api/users", {
+export async function createBasicUser(user) {
+    const res = await fetch("http://localhost:8080/api/basic-users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
+        mode: "cors"
+    });
+    return await res.json();
+}
+
+export async function createProUser(user) {
+    const res = await fetch("http://localhost:8080/api/pro-users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+        mode: "cors"
+    });
+    return await res.json();
+}
+
+export async function createBusinessUser(user) {
+    const res = await fetch("http://localhost:8080/api/business-users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+        mode: "cors"
+    });
+    return await res.json();
+}
+
+// Login user
+export async function loginBasicUser(credentials) {
+    const res = await fetch("http://localhost:8080/api/basic-users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+        mode: "cors"
+    });
+    return await res.text(); // returns "Login successful" or error message
+}
+
+export async function loginProUser(credentials) {
+    const res = await fetch("http://localhost:8080/api/pro-users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+        mode: "cors"
+    });
+    return await res.text(); // returns "Login successful" or error message
+}
+
+export async function loginBusinessUser(credentials) {
+    const res = await fetch("http://localhost:8080/api/business-users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+        mode: "cors"
+    });
+    return await res.text(); // returns "Login successful" or error message
+}
+
+export async function findBasicUserByUsername(username) {
+    const res = await fetch(`http://localhost:8080/api/basic-users/username/${username}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors"
+    });
+    return await res.json();
+}
+
+export async function findProUserByUsername(username) {
+    const res = await fetch(`http://localhost:8080/api/pro-users/username/${username}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors"
+    });
+    return await res.json();
+}
+
+export async function findBusinessUserByUsername(username) {
+    const res = await fetch(`http://localhost:8080/api/business-users/username/${username}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
         mode: "cors"
     });
     return await res.json();
