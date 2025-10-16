@@ -56,7 +56,7 @@ export async function getAllCars() {
 
 //User
 export async function getUser(id) {
-    const res = await fetch(`http://localhost:8080/api/pro-users/${id}`, {
+    const res = await fetch(`http://localhost:8080/api/basic-users/${id}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -95,8 +95,6 @@ export async function getBusinessUser(id) {
 
     return await res.json();
 }
-
-
 
 // Create new user
 export async function createUser(user) {
@@ -153,3 +151,42 @@ export async function getBookingsByBusinessUserId(businessUserId) {
   return await res.json();
 }
 
+//user bookings
+export async function createBooking(booking) {
+  try {
+    const response = await fetch("http://localhost:8080/api/bookings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(booking),
+      mode: "cors",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to save booking: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Booking saved:", data);
+    return data;
+  } catch (error) {
+    console.error("Error saving booking:", error);
+    throw error;
+  }
+}
+
+export async function createPayment(payment) {
+    const res = await fetch("http://localhost:8080/payment/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payment),
+        mode: "cors"
+    });
+
+    if (!res.ok) {
+        throw new Error(`Failed to process payment: ${res.status}`);
+    }
+
+    return await res.json();
+}

@@ -1,98 +1,81 @@
 <script setup>
-import {onMounted, ref} from "vue";
-import {getCar} from "../routes/routes.js";
-import {useRoute} from "vue-router";
-
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import BookingComponent from "./BookingComponent.vue";
+import { getCar } from "../routes/routes.js";
 
 const route = useRoute();
-const carId = ref(route.params.id); // get id from URL
+const carId = ref(route.params.id);
 
-const car = ref({
-  image: null,
-  brand: '',
-  model: '',
-  type: '',
-  pricePerDay: 0,
-  seatCapacity: 0,
-  bootCapacity: 0,
-  engineCapacity: 0,
-  transmission: '',
-  description: '',
-  collectionLocation: ''
-});
+const car = ref(null);
+
+const showBooking = ref(false);
 
 onMounted(async () => {
-  car.value = await getCar(carId.value);
+  try {
+    car.value = await getCar(carId.value);
+    console.log("Car loaded:", car.value);
+  } catch (err) {
+    console.error("Failed to load car:", err);
+  }
 });
+
+function openBooking() {
+  console.log("Opening booking modal");
+  showBooking.value = true;
+}
+
+function closeBooking() {
+  console.log("Closing booking modal");
+  showBooking.value = false;
+}
 </script>
 
 <template>
-  <div class="form-wrapper" v-if="car">
-    <h1>View Car Details</h1>
-    <div class="form-content">
-      <div class="imageContainer">
-        <img v-if="car.image" :src="'data:image/jpeg;base64,' + car.image" alt="Rental Car Image" />
-        <img v-else src="https://www.pallenz.co.nz/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png" alt="Rental Car Image"/>
-      </div>
-
-      <div class="inputContainer">
-        <div class="form-group">
-          <label>Brand</label>
-          <span>{{car.brand}}</span>
+  <div>
+    <div class="form-wrapper" v-if="car">
+      <h1>View Car Details</h1>
+      <div class="form-content">
+        <div class="imageContainer">
+          <img
+            v-if="car.image"
+            :src="'data:image/jpeg;base64,' + car.image"
+            alt="Rental Car Image"
+          />
+          <img
+            v-else
+            src="https://www.pallenz.co.nz/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png"
+            alt="Rental Car Image"
+          />
         </div>
 
-        <div class="form-group">
-          <label>Model</label>
-          <span>{{car.model}}</span>
-        </div>
+        <div class="inputContainer">
+          <div class="form-group"><label>Brand</label><span>{{ car.brand }}</span></div>
+          <div class="form-group"><label>Model</label><span>{{ car.model }}</span></div>
+          <div class="form-group"><label>Type</label><span>{{ car.type }}</span></div>
+          <div class="form-group"><label>Price Per Day</label><span>R{{ car.pricePerDay }}</span></div>
+          <div class="form-group"><label>Seat Capacity</label><span>{{ car.seatCapacity }}</span></div>
+          <div class="form-group"><label>Boot Capacity</label><span>{{ car.bootCapacity }}</span></div>
+          <div class="form-group"><label>Engine Capacity</label><span>{{ car.engineCapacity }}</span></div>
+          <div class="form-group"><label>Transmission</label><span>{{ car.transmission }}</span></div>
+          <div class="form-group full-width"><label>Collection Location</label><span>{{ car.collectionLocation }}</span></div>
+          <div class="form-group full-width"><label>Description</label><span>{{ car.description }}</span></div>
 
-        <div class="form-group">
-          <label>Type</label>
-          <span>{{car.type}}</span>
-        </div>
-
-        <div class="form-group">
-          <label>Price Per Day</label>
-          <span>{{car.pricePerDay}}</span>
-        </div>
-
-        <div class="form-group">
-          <label>Seat Capacity</label>
-          <span>{{car.seatCapacity}}</span>
-        </div>
-
-        <div class="form-group">
-          <label>Boot Capacity</label>
-          <span>{{car.bootCapacity}}</span>
-        </div>
-
-        <div class="form-group">
-          <label>Engine Capacity</label>
-          <span>{{car.engineCapacity}}</span>
-        </div>
-
-        <div class="form-group">
-          <label>Transmission</label>
-          <span>{{car.transmission}}</span>
-        </div>
-
-        <div class="form-group full-width">
-          <label>Collection Location</label>
-          <span>{{car.collectionLocation}}</span>
-        </div>
-
-        <div class="form-group full-width">
-          <label>Description</label>
-          <span>{{car.description}}</span>
-        </div>
-
-        <div class="button-row">
-          <button class="add">Book Now</button>
+          <div class="button-row">
+            <button class="add" @click="openBooking">Checkout</button>
+          </div>
         </div>
       </div>
     </div>
+
+    <BookingComponent
+      v-if="showBooking && car"
+      :car="car"
+      @close="closeBooking"
+    />
   </div>
 </template>
+
 
 <style scoped>
 .form-wrapper {
@@ -179,6 +162,7 @@ onMounted(async () => {
   grid-column: span 2;
   display: flex;
   justify-content: center;
+  gap: 15px;
 }
 
 .add {
@@ -200,11 +184,69 @@ onMounted(async () => {
   background: linear-gradient(135deg, #cc0000 0%, #ff1a1a 100%);
 }
 
-.add:active {
-  transform: translateY(1px);
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-/* Responsive design */
+.modal {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 30px;
+  width: 400px;
+  color: #fff;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.modal h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.modal .form-group {
+  margin-bottom: 20px;
+}
+
+.modal input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #2a2a2a;
+  color: white;
+}
+
+.confirm {
+  background: #7F0000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.cancel {
+  background: #444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.confirm:hover {
+  background: #cc0000;
+}
+
 @media (max-width: 968px) {
   .form-content {
     flex-direction: column;
@@ -239,5 +281,8 @@ onMounted(async () => {
   .form-wrapper h1 {
     font-size: 1.8rem;
   }
+}
+.modal-overlay {
+  z-index: 9999 !important;
 }
 </style>
