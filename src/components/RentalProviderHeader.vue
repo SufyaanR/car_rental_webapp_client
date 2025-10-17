@@ -1,4 +1,12 @@
 <script setup>
+import router from "../router/index.js";
+import { ref } from "vue";
+
+function logout() {
+  localStorage.clear();
+  router.replace('/auth/login');
+}
+const userId = ref(localStorage.getItem("authenticatedUserId"));
 </script>
 
 <template>
@@ -12,17 +20,10 @@
       <router-link :to="`/rental-provider/bookings/${userId}`">View Bookings</router-link>
       <router-link :to="`/rental-provider/payments/${userId}`">View Payments</router-link>
       <router-link to="/rental-provider/my-account">My Account</router-link>
-      <router-link to="/login">Logout</router-link>
+      <button @click="logout" class="logout-btn">Logout</button>
     </nav>
   </header>
 </template>
-
-<script setup>
-import { ref } from "vue";
-
-// Replace this with actual logged-in user's ID dynamically
-const userId = ref(123);
-</script>
 
 <style scoped>
 .navbar {
@@ -53,15 +54,19 @@ const userId = ref(123);
   gap: 20px;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-links .router-link-active,
+.logout-btn {
   color: white;
   font-weight: bold;
   text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .nav-links a:hover,
-.nav-links .router-link-active {
+.logout-btn:hover {
   color: #282121;
-  font-weight: bold;
 }
 </style>

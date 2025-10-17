@@ -1,6 +1,13 @@
 <script setup>
 import { ref } from "vue";
-import {createBasicUser, createBusinessUser, createProUser} from "../routes/routes.js";
+import {
+  createBasicUser,
+  createBusinessUser,
+  createProUser,
+  findBasicUserByUsername, findBusinessUserByUsername,
+  findProUserByUsername
+} from "../routes/routes.js";
+import router from "../router/index.js";
 
 const firstName = ref("");
 const lastName = ref("");
@@ -77,6 +84,8 @@ async function onCreatedUser() {
 
   try {
     let createdUser;
+    let userId;
+
     if (userType.value === "BASIC") {
       createdUser = await createBasicUser(user);
     }
@@ -87,9 +96,30 @@ async function onCreatedUser() {
       createdUser = await createBusinessUser(user);
     }
 
-    console.log(JSON.stringify(user, null, 2));
+
+    if (user.userType === "BASIC") {
+      userId = await findBasicUserByUsername(user.username);
+    } else if (user.userType === "PRO") {
+      userId = await findProUserByUsername(user.username);
+    } else {
+      userId = await findBusinessUserByUsername(user.username);
+    }
+
+// Save to localStorage **before routing**
+    localStorage.setItem("authenticatedUserId", userId.userId);
+    localStorage.setItem("username", user.username);
+    localStorage.setItem("userType", user.userType);
+
+// Now route
+    if (user.userType === "BASIC") {
+      await router.replace("/user/home");
+    } else {
+      await router.replace("/rental-provider/create");
+    }
+
     console.log("createduser:", createdUser);
     alert(`Welcome, ${user.firstName} ${user.lastName}!`);
+
   } catch (error) {
     console.error("error:", error.message);
     alert(error.message);
@@ -203,6 +233,7 @@ async function onCreatedUser() {
 
 <style scoped>
 .signup-page {
+  padding-top: 15vh;
   width: 100vw;
   display: flex;
   justify-content: center;

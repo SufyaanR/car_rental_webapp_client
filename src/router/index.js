@@ -13,21 +13,23 @@ import UserLayout from "../layouts/UserLayout.vue";
 import HomePage from "../pages/HomePage.vue";
 import AboutUsPage from "../pages/AboutUsPage.vue";
 import ContactUsPage from "../pages/ContactUsPage.vue";
+import AuthLayout from "../layouts/AuthLayout.vue";
 
 //Renders page components when user navigates
 const routes = [
-    { path: '/', redirect: '/user/home' },
-    {path: '/rental-provider', component: RentalProviderLayout, children: [
+    { path: '/', redirect: '/auth/login' },
+    {path: '/auth', component: AuthLayout, children: [
+            {path: 'login', name: 'LoginPage', component: LoginPage},
+            {path: 'signup', name: 'SignUpPage', component: SignUpPage}
+        ]},
+    {path: '/rental-provider', component: RentalProviderLayout, meta: { requiresAuth: true, roles: ['BUSINESS', 'PRO'] },  children: [
             {path: 'create', name: 'RentalProviderCreatePage', component: RentalProviderCreatePage},
             { path: 'update-car/:id', name: 'RentalProviderUpdatePage', component: RentalProviderUpdatePage },
             {path: 'payments/:userId', name: 'RentalProviderPayments',component: RentalProviderPaymentsPage},
             { path: 'bookings/:userId', name: 'RentalProviderBookings', component: RentalProviderBookingsPage }
 
         ]},
-    {path: '/user', component: UserLayout, children: [
-            {path: '', name: 'LoginPage', component: LoginPage},
-            {path: 'login', name: 'LoginPage', component: LoginPage},
-            {path: 'signup', name: 'SignUpPage', component: SignUpPage},
+    {path: '/user', component: UserLayout, meta: { requiresAuth: true, roles: ['BASIC'] }, children: [
             {path: 'cars', name: 'CarListPage', component: CarListPage},
             {path: 'car/:id', name: 'CarViewPage', component: CarViewPage},
             {path: 'home', name: 'HomePage', component: HomePage},
@@ -41,5 +43,28 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
 });
+
+router.beforeEach((to, from, next) => {
+    const userId = localStorage.getItem("authenticatedUserId");
+    const userType = localStorage.getItem("userType");
+    const isAuthenticated = !!userId;
+
+    if (to.meta.requiresAuth && !isAuthenticated) {
+        return next("/auth/login");
+    }
+
+    if (isAuthenticated && to.meta.roles && !to.meta.roles.includes(userType)) {
+        return next("/auth/login");
+    }
+
+    if ((to.path === "/auth/login" || to.path === "/auth/signup") && isAuthenticated) {
+        if (userType === "BASIC") next("/user/home");
+        else if (["BUSINESS", "PRO"].includes(userType)) next("/rental-provider/create");
+        else next("/auth/login");
+    } else {
+        next();
+    }
+});
+
 
 export default router;

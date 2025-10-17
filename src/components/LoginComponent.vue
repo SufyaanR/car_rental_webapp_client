@@ -133,7 +133,7 @@ const handleLogin = async () => {
 
           <p class="signup-text">
             Don’t have an account?
-            <router-link to="/user/signup" class="signup-link">Sign Up</router-link>
+            <router-link to="/auth/signup" class="signup-link">Sign Up</router-link>
           </p>
         </div>
 

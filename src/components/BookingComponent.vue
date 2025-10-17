@@ -48,7 +48,7 @@ async function confirmBooking() {
       endDate: endDate.value,
       totalPrice: totalAmount.value,
       bookingStatus: "PENDING",
-      userId: 165,          // hardcoded user ID for now
+      userId: localStorage.getItem("authenticatedUserId"),
       carId: props.car.carId
     };
 
@@ -94,8 +94,8 @@ async function submitPayment() {
       paymentDate: now.toISOString().split("T")[0],
       paymentTime: now.toTimeString().split(" ")[0],
       paymentStatus: "PENDING",
-      user: { userId: 165 },          
-      booking: { bookingId: bookingId.value } 
+      user: { userId: localStorage.getItem("authenticatedUserId") },
+      booking: { bookingId: bookingId.value }
     };
 
     console.log("Prepared payment payload:", paymentData);
@@ -127,68 +127,67 @@ function closeModal() {
 
 <template>
   <div v-if="car" class="modal-overlay">
-    <div class="modal">
-      <h2 v-if="!showPaymentForm">Book {{ car.brand }} {{ car.model }}</h2>
-      <h2 v-else>Payment for Booking #{{ bookingId }}</h2>
+    <div class="modal-card">
+      <h2 class="modal-title">
+        {{ showPaymentForm ? `Payment for Booking #${bookingId}` : `Book ${car.brand} ${car.model}` }}
+      </h2>
 
-      <div v-if="!showPaymentForm">
-        <div class="form-group">
-          <label>Start Date</label>
-          <input type="date" v-model="startDate" />
-        </div>
+      <form class="modal-form" @submit.prevent="showPaymentForm ? submitPayment() : confirmBooking()">
+        <!-- Booking form -->
+        <template v-if="!showPaymentForm">
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="date" v-model="startDate" required />
+          </div>
 
-        <div class="form-group">
-          <label>End Date</label>
-          <input type="date" v-model="endDate" />
-        </div>
+          <div class="form-group">
+            <label>End Date</label>
+            <input type="date" v-model="endDate" required />
+          </div>
 
-        <div class="form-group">
-          <label>Total Amount</label>
-          <span v-if="duration > 0">R{{ totalAmount.toFixed(2) }}</span>
-          <span v-else>—</span>
-        </div>
+          <div class="form-group">
+            <label>Total Amount</label>
+            <span v-if="duration > 0">R{{ totalAmount.toFixed(2) }}</span>
+            <span v-else>—</span>
+          </div>
+        </template>
 
-        <div class="button-row">
-          <button class="confirm" @click="confirmBooking" :disabled="loading">
-            {{ loading ? "Processing..." : "Confirm Booking" }}
+        <!-- Payment form -->
+        <template v-else>
+          <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" v-model="cardNumber" placeholder="1234 5678 9012 3456" required />
+          </div>
+
+          <div class="form-group">
+            <label>Name on Card</label>
+            <input type="text" v-model="nameOfCardHolder" placeholder="John Doe" required />
+          </div>
+
+          <div class="form-group">
+            <label>Expiry Date</label>
+            <input type="text" v-model="expiryDate" placeholder="MM/YY" required />
+          </div>
+
+          <div class="form-group">
+            <label>CCV</label>
+            <input type="text" v-model="ccv" placeholder="123" required />
+          </div>
+
+          <div class="form-group">
+            <label>Amount</label>
+            <span>R{{ totalAmount.toFixed(2) }}</span>
+          </div>
+        </template>
+
+        <!-- Buttons -->
+        <div class="form-actions">
+          <button type="submit" class="confirm-btn" :disabled="loading">
+            {{ loading ? "Processing..." : showPaymentForm ? "Pay Now" : "Confirm Booking" }}
           </button>
-          <button class="cancel" @click="closeModal">Cancel</button>
+          <button type="button" class="cancel-btn" @click="closeModal">Cancel</button>
         </div>
-      </div>
-
-      <div v-else>
-        <div class="form-group">
-          <label>Card Number</label>
-          <input type="text" v-model="cardNumber" placeholder="1234 5678 9012 3456" />
-        </div>
-
-        <div class="form-group">
-          <label>Name on Card</label>
-          <input type="text" v-model="nameOfCardHolder" placeholder="John Doe" />
-        </div>
-
-        <div class="form-group">
-          <label>Expiry Date</label>
-          <input type="text" v-model="expiryDate" placeholder="MM/YY" />
-        </div>
-
-        <div class="form-group">
-          <label>CCV</label>
-          <input type="text" v-model="ccv" placeholder="123" />
-        </div>
-
-        <div class="form-group">
-          <label>Amount</label>
-          <span>R{{ totalAmount.toFixed(2) }}</span>
-        </div>
-
-        <div class="button-row">
-          <button class="confirm" @click="submitPayment" :disabled="loading">
-            {{ loading ? "Processing..." : "Pay Now" }}
-          </button>
-          <button class="cancel" @click="closeModal">Cancel</button>
-        </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
@@ -205,89 +204,117 @@ function closeModal() {
   padding: 1rem;
 }
 
-.modal {
-  background: #1a1a1a;
+.modal-card {
+  background: #3b3b3b;
   border-radius: 16px;
-  padding: 30px;
-  width: 400px;
-  max-width: 95vw;
-  color: #fff;
-  border: 1px solid #333;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+  padding: 40px 30px;
+  width: 70vw;
+  max-width: 600px;
+  color: #eee;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  gap: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-.modal h2 {
+.modal-title {
   text-align: center;
-  margin-bottom: 10px;
+  font-size: 1.8rem;
+  color: #ff7f7f;
+  margin-bottom: 20px;
+}
+
+.modal-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
 }
 
-.modal input {
-  width: 100%;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  background: #2a2a2a;
-  color: white;
-}
-
-.button-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.confirm, .cancel {
-  flex: 1;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  cursor: pointer;
+.form-group label {
+  margin-bottom: 6px;
   font-weight: 600;
 }
 
-.confirm {
-  background: #7f0000;
-  color: white;
+.form-group input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #555;
+  color: #fff;
+  font-size: 1rem;
 }
 
-.confirm:hover {
-  background: #cc0000;
+.form-group input::placeholder {
+  color: #ccc;
 }
 
-.cancel {
-  background: #444;
-  color: white;
+.form-group input:focus {
+  outline: 2px solid #7f0000;
+  background: #666;
 }
 
-@media (max-width: 480px) {
-  .modal {
-    width: 100%;
-    padding: 20px;
-    transform: none;
-    left: 0;
-    top: 0;
-    position: relative;
+.form-actions {
+  grid-column: span 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.confirm-btn {
+  flex: 1;
+  background-color: #7f0000;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background-color: #a00000;
+}
+
+.cancel-btn {
+  flex: 1;
+  background-color: #444;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background-color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-card {
+    width: 90vw;
+    padding: 30px 20px;
   }
 
-  .button-row {
+  .modal-form {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
     flex-direction: column;
   }
 
-  .confirm, .cancel {
+  .confirm-btn,
+  .cancel-btn {
     width: 100%;
   }
 }

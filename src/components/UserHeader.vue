@@ -1,5 +1,12 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router';
+
+const router = useRouter();
+
+function logout() {
+  localStorage.clear();
+  router.push('/auth/login');
+}
 </script>
 
 <template>
@@ -15,7 +22,7 @@ import { RouterLink } from 'vue-router'
       <RouterLink to="/user/cars">Rent Cars</RouterLink>
       <RouterLink to="/user/contact">Contact Us</RouterLink>
       <RouterLink to="/user/about-us">About Us</RouterLink>
-      <RouterLink to="/user/login">Login</RouterLink>
+      <button @click="logout" class="logout-btn">Logout</button>
     </nav>
   </header>
 </template>
@@ -51,15 +58,18 @@ import { RouterLink } from 'vue-router'
 }
 
 .nav-links a,
-.nav-links .router-link-active {
+.nav-links .router-link-active,
+.logout-btn {
   color: white;
   font-weight: bold;
   text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .nav-links a:hover,
-.nav-links .router-link-active {
+.logout-btn:hover {
   color: #282121;
-  font-weight: bold;
 }
 </style>
