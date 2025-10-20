@@ -61,8 +61,10 @@ const handleLogin = async () => {
 
       if (form.value.userType === "BASIC") {
         await router.push("/user/home");
-      } else {
-        await router.push("/rental-provider/create");
+      } else if (["BUSINESS", "PRO"].includes(form.value.userType)) {
+        await router.push("/rental-provider/home");
+      } else{
+        await router.push("auth/login")
       }
 
       alert(`Welcome back, ${form.value.username}!`);

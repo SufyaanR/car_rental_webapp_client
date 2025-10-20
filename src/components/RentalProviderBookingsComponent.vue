@@ -97,7 +97,7 @@ onMounted(fetchBookings);
 h1 {
   text-align: center;
   margin-bottom: 30px;
-  color: #000;
+  color: #ffffff;
 }
 
 .error {
@@ -124,7 +124,7 @@ h1 {
   color: #fff;
 }
 
-.bookings-table tbody tr:nth-child(even) {
+.bookings-table tbody tr {
   background-color: #f2f2f2;
 }
 

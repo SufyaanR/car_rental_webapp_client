@@ -22,6 +22,7 @@ function logout() {
       <RouterLink to="/user/cars">Rent Cars</RouterLink>
       <RouterLink to="/user/contact">Contact Us</RouterLink>
       <RouterLink to="/user/about-us">About Us</RouterLink>
+      <RouterLink to="/user/account">Account</RouterLink>
       <button @click="logout" class="logout-btn">Logout</button>
     </nav>
   </header>

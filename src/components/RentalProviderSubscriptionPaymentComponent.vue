@@ -4,82 +4,81 @@ import { useRoute } from "vue-router";
 import { 
   getProUser, 
   getBusinessUser, 
-  getPaymentsByProUserId, 
-  getPaymentsByBusinessUserId 
+  getSubPaymentsByProUserId, 
+  getSubPaymentsByBusinessUserId 
 } from "../routes/routes.js";
 
 const route = useRoute();
 const userId = Number(route.params.userId);
 
-const payments = ref([]);
+const subscriptions = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-async function fetchPayments() {
-  payments.value = [];
+async function fetchSubscriptions() {
+  subscriptions.value = [];
   loading.value = true;
   error.value = null;
 
-  let fetchedPayments = [];
+  let fetchedSubscriptions = [];
 
   try {
     const proUser = await getProUser(userId);
     if (proUser) {
-      fetchedPayments = await getPaymentsByProUserId(userId);
+      fetchedSubscriptions = await getSubPaymentsByProUserId(userId);
     }
   } catch (err) {
     console.log("Not a ProUser:", err.message);
   }
 
-  if (fetchedPayments.length === 0) {
+  if (fetchedSubscriptions.length === 0) {
     try {
       const businessUser = await getBusinessUser(userId);
       if (businessUser) {
-        fetchedPayments = await getPaymentsByBusinessUserId(userId);
+        fetchedSubscriptions = await getSubPaymentsByBusinessUserId(userId);
       }
     } catch (err) {
       console.log("Not a BusinessUser:", err.message);
     }
   }
 
-  if (!fetchedPayments || fetchedPayments.length === 0) {
-    error.value = "No payments found for this user.";
+  if (!fetchedSubscriptions || fetchedSubscriptions.length === 0) {
+    error.value = "No subscription payments found for this user.";
   }
 
-  payments.value = fetchedPayments;
+  subscriptions.value = fetchedSubscriptions;
   loading.value = false;
 }
 
-onMounted(fetchPayments);
+onMounted(fetchSubscriptions);
 </script>
 
 <template>
-  <div class="payments-wrapper">
-    <h1>Payments Received</h1>
+  <div class="subscriptions-wrapper">
+    <h1>Subscription Payments</h1>
 
-    <div v-if="loading">Loading payments...</div>
+    <div v-if="loading">Loading subscription payments...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
-    <div v-else-if="payments.length === 0">No payments found.</div>
+    <div v-else-if="subscriptions.length === 0">No subscription payments found.</div>
     <div v-else>
-      <table class="payments-table">
+      <table class="subscriptions-table">
         <thead>
           <tr>
-            <th>Booking ID</th>
-            <th>Payer</th>
+            <th>Subscription ID</th>
+            <th>Plan Name</th>
             <th>Amount</th>
-            <th>Date</th>
-            <th>Time</th>
+            <th>Payment Date</th>
+            <th>Payment Time</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="payment in payments" :key="payment.paymentId">
-            <td>{{ payment.booking?.bookingId }}</td>
-            <td>{{ payment.user?.firstName }} {{ payment.user?.lastName }}</td>
-            <td>{{ payment.amount }}</td>
-            <td>{{ payment.paymentDate }}</td>
-            <td>{{ payment.paymentTime }}</td>
-            <td>{{ payment.paymentStatus }}</td>
+          <tr v-for="sub in subscriptions" :key="sub.subscriptionPaymentId">
+            <td>{{ sub.subscription?.subscriptionId }}</td>
+            <td>{{ sub.subscription?.planName }}</td>
+            <td>{{ sub.amount }}</td>
+            <td>{{ sub.paymentDate }}</td>
+            <td>{{ sub.paymentTime }}</td>
           </tr>
         </tbody>
       </table>
@@ -88,7 +87,7 @@ onMounted(fetchPayments);
 </template>
 
 <style scoped>
-.payments-wrapper {
+.subscriptions-wrapper {
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
@@ -97,7 +96,7 @@ onMounted(fetchPayments);
 h1 {
   text-align: center;
   margin-bottom: 30px;
-  color:#fff
+  color: #ffffff;
 }
 
 .loading, .error {
@@ -107,31 +106,31 @@ h1 {
   color: #7F0000;
 }
 
-.payments-table {
+.subscriptions-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
-.payments-table th,
-.payments-table td {
+.subscriptions-table th,
+.subscriptions-table td {
   border: 1px solid #7F0000;
   padding: 10px 12px;
   text-align: center;
   color: #000000; 
 }
 
-.payments-table th {
+.subscriptions-table th {
   background-color: #7F0000;
   color: #fff;
   font-weight: 600;
 }
 
-.payments-table tbody tr {
+.subscriptions-table tbody tr {
   background-color: #f2f2f2;
 }
 
-.payments-table tbody tr:hover {
+.subscriptions-table tbody tr:hover {
   background-color: #ffe6e6;
 }
 </style>
