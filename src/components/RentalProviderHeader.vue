@@ -16,10 +16,13 @@ const userId = ref(localStorage.getItem("authenticatedUserId"));
     </router-link>
 
     <nav class="nav-links">
+      <router-link to="/rental-provider/home">Home</router-link>
       <router-link to="/rental-provider/create">Create Rental</router-link>
       <router-link :to="`/rental-provider/bookings/${userId}`">View Bookings</router-link>
       <router-link :to="`/rental-provider/payments/${userId}`">View Payments</router-link>
-      <router-link to="/rental-provider/my-account">My Account</router-link>
+      <router-link :to="`/rental-provider/subscriptions/${userId}`">View Subscription Payments</router-link>
+      <router-link :to="`/rental-provider/account/${userId}`">Account</router-link>
+      <router-link :to="`/rental-provider/my-cars`">My cars</router-link>
       <button @click="logout" class="logout-btn">Logout</button>
     </nav>
   </header>

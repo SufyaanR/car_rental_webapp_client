@@ -21,7 +21,6 @@ onMounted(async () => {
 
 <template>
   <div class="page-wrapper">
-    <h1>Update Car</h1>
     <div v-if="car">
       <RentalProviderUpdateComponent :initialCar="car" />
     </div>
@@ -38,8 +37,5 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-h1 {
-  margin-bottom: 30px;
 }
 </style>

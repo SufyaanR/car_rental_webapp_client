@@ -114,7 +114,7 @@ async function onCreatedUser() {
     if (user.userType === "BASIC") {
       await router.replace("/user/home");
     } else {
-      await router.replace("/rental-provider/create");
+      await router.replace("/rental-provider/home");
     }
 
     console.log("createduser:", createdUser);
@@ -245,7 +245,7 @@ async function onCreatedUser() {
   padding: 40px 30px;
   border-radius: 16px;
   width: 70vw;
-  //min-height: 50vh;
+  min-height: 50vh;
   height: auto;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
   color: #eee;

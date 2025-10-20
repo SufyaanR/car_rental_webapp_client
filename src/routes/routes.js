@@ -208,6 +208,34 @@ export async function getPaymentsByBusinessUserId(businessUserId) {
   return await res.json();
 }
 
+export async function getSubPaymentsByProUserId(proUserId) {
+    const res = await fetch(`http://localhost:8080/Subscription/proUser/${proUserId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors"
+    });
+
+    if (!res.ok) {
+        throw new Error(`Failed to fetch payments for Pro User ID ${proUserId}: ${res.status}`);
+    }
+
+    return await res.json();
+}
+
+export async function getSubPaymentsByBusinessUserId(businessUserId) {
+    const res = await fetch(`http://localhost:8080/Subscription/businessUser/${businessUserId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors"
+    });
+
+    if (!res.ok) {
+        throw new Error(`Failed to fetch payments for Business User ID ${businessUserId}: ${res.status}`);
+    }
+
+    return await res.json();
+}
+
 //Bookings
 export async function getBookingsByProUserId(proUserId) {
   const res = await fetch(`http://localhost:8080/api/bookings/proUser/${proUserId}`, {
@@ -268,3 +296,119 @@ export async function createPayment(payment) {
 
     return await res.json();
 }
+
+// GET user by ID
+export async function getBasicUserById(userId) {
+    const res = await fetch(`http://localhost:8080/api/basic-users/${userId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors"
+    });
+    if (!res.ok) throw new Error(`Failed to fetch user: ${res.status}`);
+    return await res.json();
+}
+
+// PATCH update user
+export async function updateBasicUser(userId, updates) {
+    const res = await fetch(`http://localhost:8080/api/basic-users/${userId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+        mode: "cors"
+    });
+    if (!res.ok) throw new Error(`Failed to update user: ${res.status}`);
+    return await res.json();
+}
+
+// DELETE user
+export async function deleteBasicUser(userId) {
+    const res = await fetch(`http://localhost:8080/api/basic-users/${userId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors"
+    });
+    if (!res.ok) throw new Error(`Failed to delete user: ${res.status}`);
+    return true;
+}
+
+// business user routes
+export async function getBusinessUserById(userId) {
+    const res = await fetch(`http://localhost:8080/api/business-users/${userId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+    });
+    if (!res.ok) throw new Error(`Failed to fetch business user: ${res.status}`);
+    return await res.json();
+}
+
+export async function updateBusinessUser(userId, data) {
+    const res = await fetch(`http://localhost:8080/api/business-users/${userId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error(`Failed to update business user: ${res.status}`);
+    return await res.json();
+}
+
+export async function deleteBusinessUser(userId) {
+    const res = await fetch(`http://localhost:8080/api/business-users/${userId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+    });
+    if (!res.ok) throw new Error(`Failed to delete business user: ${res.status}`);
+    return true;
+}
+
+// pro user routes
+export async function getProUserById(userId) {
+    const res = await fetch(`http://localhost:8080/api/pro-users/${userId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+    });
+    if (!res.ok) throw new Error(`Failed to fetch pro user: ${res.status}`);
+    return await res.json();
+}
+
+export async function updateProUser(userId, data) {
+    const res = await fetch(`http://localhost:8080/api/pro-users/${userId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error(`Failed to update pro user: ${res.status}`);
+    return await res.json();
+}
+
+export async function deleteProUser(userId) {
+    const res = await fetch(`http://localhost:8080/api/pro-users/${userId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+    });
+    if (!res.ok) throw new Error(`Failed to delete pro user: ${res.status}`);
+    return true;
+}
+
+export async function getUserCars(userId, userType) {
+    const url = `http://localhost:8080/api/cars/my-cars?userId=${userId}&userType=${userType}`;
+    
+    const res = await fetch(url, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+    });
+
+    if (!res.ok) {
+        throw new Error(`Failed to fetch cars: ${res.status}`);
+    }
+
+    return await res.json();
+}
+
+

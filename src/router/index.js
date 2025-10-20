@@ -14,6 +14,11 @@ import HomePage from "../pages/HomePage.vue";
 import AboutUsPage from "../pages/AboutUsPage.vue";
 import ContactUsPage from "../pages/ContactUsPage.vue";
 import AuthLayout from "../layouts/AuthLayout.vue";
+import RentalProviderSubscriptionPaymentPage from '../pages/RentalProviderSubscriptionPaymentPage.vue';
+import RentalProviderHomePage from '../pages/RentalProviderHomePage.vue';
+import AccountPage from '../pages/AccountPage.vue';
+import RentalProviderAccountPage from '../pages/RentalProviderAccountPage.vue';
+import RentalProviderCarListPage from '../pages/RentalProviderCarListPage.vue';
 
 //Renders page components when user navigates
 const routes = [
@@ -23,11 +28,17 @@ const routes = [
             {path: 'signup', name: 'SignUpPage', component: SignUpPage}
         ]},
     {path: '/rental-provider', component: RentalProviderLayout, meta: { requiresAuth: true, roles: ['BUSINESS', 'PRO'] },  children: [
+            {path: 'home', name: 'RentalProviderHomePage', component: RentalProviderHomePage},
             {path: 'create', name: 'RentalProviderCreatePage', component: RentalProviderCreatePage},
             { path: 'update-car/:id', name: 'RentalProviderUpdatePage', component: RentalProviderUpdatePage },
             {path: 'payments/:userId', name: 'RentalProviderPayments',component: RentalProviderPaymentsPage},
-            { path: 'bookings/:userId', name: 'RentalProviderBookings', component: RentalProviderBookingsPage }
+            { path: 'bookings/:userId', name: 'RentalProviderBookings', component: RentalProviderBookingsPage },
+            {path: "subscriptions/:userId", name: "SubscriptionPayments",component: RentalProviderSubscriptionPaymentPage},
+            {path: 'account/:userId', name: 'RentalProviderAccountPage', component: RentalProviderAccountPage},
+            {path: 'about-us', name: 'AboutUsPage', component: AboutUsPage},
+            { path: 'my-cars', name: 'RentalProviderCarListPage', component: RentalProviderCarListPage },
 
+            
         ]},
     {path: '/user', component: UserLayout, meta: { requiresAuth: true, roles: ['BASIC'] }, children: [
             {path: 'cars', name: 'CarListPage', component: CarListPage},
@@ -35,6 +46,7 @@ const routes = [
             {path: 'home', name: 'HomePage', component: HomePage},
             {path: 'about-us', name: 'AboutUsPage', component: AboutUsPage},
             {path: 'contact', name: 'ContactUsPage', component: ContactUsPage},
+            {path: 'account', name: 'AccountPage', component: AccountPage}
         ]},
     {path: '/:catchAll(.*)*', name: "PageNotFound", component: PageNotFound} //This catches our error page not found
 ];
@@ -59,12 +71,11 @@ router.beforeEach((to, from, next) => {
 
     if ((to.path === "/auth/login" || to.path === "/auth/signup") && isAuthenticated) {
         if (userType === "BASIC") next("/user/home");
-        else if (["BUSINESS", "PRO"].includes(userType)) next("/rental-provider/create");
+        else if (["BUSINESS", "PRO"].includes(userType)) next("/rental-provider/home");
         else next("/auth/login");
     } else {
         next();
     }
 });
-
 
 export default router;
