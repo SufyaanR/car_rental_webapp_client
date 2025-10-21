@@ -110,8 +110,8 @@ async function onCreatedUser() {
 
     if (createdUser.userType === "PRO" || createdUser.userType === "BUSINESS") {
       const paymentRequest = {
-        amount: 100.00, // must be numeric
-        paymentDate: new Date().toISOString().split("T")[0], // "YYYY-MM-DD"
+        amount: 100.00, 
+        paymentDate: new Date().toISOString().split("T")[0], 
         paymentTime: new Date().toLocaleTimeString("en-GB", { hour12: false })
       };
 
@@ -124,7 +124,6 @@ async function onCreatedUser() {
     localStorage.setItem("username", user.username);
     localStorage.setItem("userType", user.userType);
 
-// Now route
     if (user.userType === "BASIC") {
       await router.replace("/user/home");
     } else {
@@ -148,7 +147,6 @@ async function onCreatedUser() {
     <div class="signup-card">
       <h2 class="card-title">Sign Up</h2>
       <div class="signup-form">
-        <!-- First row -->
         <div class="form-group">
           <label>First Name</label>
           <input v-model="firstName" type="text" placeholder="First Name" required />
@@ -164,7 +162,6 @@ async function onCreatedUser() {
           <input v-model="dateOfBirth" type="date" required />
         </div>
 
-        <!-- Second row -->
         <div class="form-group">
           <label>ID Number</label>
           <input v-model="idNumber" type="text" placeholder="ID Number" required />
@@ -180,7 +177,6 @@ async function onCreatedUser() {
           <input v-model="email" type="email" placeholder="Email" required />
         </div>
 
-        <!-- Third row -->
         <div class="form-group">
           <label>Username</label>
           <input v-model="username" type="text" placeholder="Username" required />
@@ -191,7 +187,6 @@ async function onCreatedUser() {
           <input v-model="password" type="password" placeholder="Password" required />
         </div>
 
-        <!-- User Type -->
         <div class="form-group">
           <label>User Type</label>
           <select v-model="userType" required>
@@ -202,7 +197,6 @@ async function onCreatedUser() {
           </select>
         </div>
 
-        <!-- These fields show only for Pro and Business users -->
         <template v-if="userType === 'PRO' || userType === 'BUSINESS'">
           <div class="form-group">
             <label>Bank Name</label>
@@ -225,7 +219,6 @@ async function onCreatedUser() {
           </div>
         </template>
 
-        <!-- These fields show only for Business users -->
         <template v-if="userType === 'BUSINESS'">
           <div class="form-group">
             <label>Business Name</label>
@@ -276,7 +269,7 @@ async function onCreatedUser() {
 
 .signup-form {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 fields per row */
+  grid-template-columns: repeat(3, 1fr); 
   gap: 20px;
 }
 
@@ -333,7 +326,6 @@ async function onCreatedUser() {
   background-color: #a00000;
 }
 
-/* Responsive */
 @media (max-width: 968px) {
   .signup-card {
     width: 90vw;
@@ -341,13 +333,13 @@ async function onCreatedUser() {
     padding: 30px 20px;
   }
   .signup-form {
-    grid-template-columns: 1fr 1fr; /* 2 per row */
+    grid-template-columns: 1fr 1fr; 
   }
 }
 
 @media (max-width: 576px) {
   .signup-form {
-    grid-template-columns: 1fr; /* 1 per row */
+    grid-template-columns: 1fr; 
   }
 }
 </style>

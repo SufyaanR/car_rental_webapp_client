@@ -22,7 +22,6 @@ async function fetchBookings() {
 
   let fetchedBookings = [];
 
-  // Try ProUser
   try {
     const proUser = await getProUser(props.userId);
     if (proUser) {
@@ -32,7 +31,6 @@ async function fetchBookings() {
     console.log("Not a ProUser:", err.message);
   }
 
-  // Try BusinessUser
   if (fetchedBookings.length === 0) {
     try {
       const businessUser = await getBusinessUser(props.userId);

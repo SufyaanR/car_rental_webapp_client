@@ -9,7 +9,6 @@ const props = defineProps({
   initialCar: { type: Object, required: true }
 });
 
-// Car fields
 const brand = ref("");
 const model = ref("");
 const type = ref("");
@@ -22,13 +21,11 @@ const collectionLocation = ref("");
 const description = ref("");
 const image = ref("");
 
-// User references
 const proUserId = ref(null);
 const businessUserId = ref(null);
 
 const loading = ref(true);
 
-// Populate fields when initialCar changes
 watch(
   () => props.initialCar,
   (car) => {
@@ -54,7 +51,6 @@ watch(
   { immediate: true }
 );
 
-// Handle image upload
 function onFileChange(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -65,7 +61,6 @@ function onFileChange(e) {
   reader.readAsDataURL(file);
 }
 
-// Update car
 async function onUpdateCar() {
   if (!props.initialCar) return;
 
@@ -97,7 +92,6 @@ async function onUpdateCar() {
   }
 }
 
-// Delete car
 async function onDeleteCar() {
   if (!props.initialCar) return;
   if (!confirm("Are you sure you want to delete this car?")) return;

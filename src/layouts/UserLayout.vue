@@ -25,7 +25,7 @@ import UserHeader from "../components/UserHeader.vue";
 
 .content {
   flex: 1;
-  padding-top: 120px;  /* make space for fixed header */
+  padding-top: 120px; 
   padding-bottom: 90px;
   overflow-y: auto;
 }

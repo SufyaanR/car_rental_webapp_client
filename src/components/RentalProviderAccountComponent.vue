@@ -12,7 +12,6 @@ import {
 
 const router = useRouter();
 
-// Reactive form model
 const form = ref({
   userId: null,
   firstName: "",
@@ -29,7 +28,6 @@ const form = ref({
   accountHolder: "",
   accountNumber: null,
   accountType: "",
-  // Business-specific fields
   businessName: "",
   businessRegistrationNumber: "",
 });
@@ -37,7 +35,6 @@ const form = ref({
 let currentUser = null;
 
 onMounted(async () => {
-  // ✅ Read localStorage in onMounted
   const userId = localStorage.getItem("authenticatedUserId");
   let userType = localStorage.getItem("userType");
 
@@ -47,7 +44,6 @@ onMounted(async () => {
     return;
   }
 
-  // normalize userType in case backend returned PRO_USER / BUSINESS_USER
   if (userType === "PRO_USER") userType = "PRO";
   if (userType === "BUSINESS_USER") userType = "BUSINESS";
 
@@ -62,7 +58,6 @@ onMounted(async () => {
       return;
     }
 
-    // Populate form
     form.value = {
       userId: currentUser.userId,
       firstName: currentUser.firstName || "",
@@ -71,7 +66,7 @@ onMounted(async () => {
       idNumber: currentUser.idNumber || "",
       email: currentUser.email || "",
       phoneNumber: currentUser.phoneNumber || "",
-      userType, // normalized PRO or BUSINESS
+      userType, 
       username: currentUser.username || "",
       password: "",
       login: currentUser.login ?? true,
@@ -88,12 +83,10 @@ onMounted(async () => {
   }
 });
 
-// ✅ Save account changes
 const saveChanges = async () => {
   try {
     if (!currentUser) return;
 
-    // ✅ Require password to be entered
     if (!form.value.password || form.value.password.trim() === "") {
       alert("You must enter a password to save changes.");
       return;
@@ -102,7 +95,7 @@ const saveChanges = async () => {
     const payload = {
       ...form.value,
       userId: currentUser.userId,
-      userType: form.value.userType, // normalized
+      userType: form.value.userType,
     };
 
     if (payload.dateOfBirth && typeof payload.dateOfBirth === "string") {
@@ -124,7 +117,6 @@ const saveChanges = async () => {
   }
 };
 
-// ✅ Delete account
 const deleteAccount = async () => {
   if (!confirm("Are you sure you want to delete your account? This cannot be undone.")) return;
   try {

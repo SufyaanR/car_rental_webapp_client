@@ -2,7 +2,6 @@
 import { ref, onBeforeMount } from "vue";
 import { createCar } from "../routes/routes.js";
 
-// Form fields
 const brand = ref("");
 const model = ref("");
 const type = ref("");
@@ -15,7 +14,6 @@ const collectionLocation = ref("");
 const description = ref("");
 const image = ref("");
 
-// User IDs
 const proUserId = ref(null);
 const businessUserId = ref(null);
 
@@ -37,15 +35,13 @@ onBeforeMount(() => {
   }
 });
 
-
-
 function onFileChange(e) {
   const file = e.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
   reader.onload = () => {
-    image.value = reader.result.split(",")[1]; // keep only Base64
+    image.value = reader.result.split(",")[1]; 
   };
   reader.readAsDataURL(file);
 }
@@ -78,7 +74,6 @@ const car = {
     const createdCar = await createCar(car);
     console.log("Car added:", createdCar);
     alert("Car added successfully!");
-    // reset form
     brand.value = model.value = type.value = transmission.value = collectionLocation.value = description.value = image.value = "";
     pricePerDay.value = seatCapacity.value = bootCapacity.value = engineCapacity.value = 0;
   } catch (err) {

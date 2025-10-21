@@ -1,4 +1,3 @@
-//Car
 export async function createCar(car) {
     const res = await fetch("http://localhost:8080/api/cars",{
         method: "POST",
@@ -53,8 +52,6 @@ export async function getAllCars() {
     return await res.json();
 }
 
-
-//User
 export async function getUser(id) {
     const res = await fetch(`http://localhost:8080/api/basic-users/${id}`, {
         method: "GET",
@@ -96,7 +93,6 @@ export async function getBusinessUser(id) {
     return await res.json();
 }
 
-// Create new user
 export async function createBasicUser(user) {
     const res = await fetch("http://localhost:8080/api/basic-users", {
         method: "POST",
@@ -118,7 +114,7 @@ export async function createProUser(user) {
 }
 
 export async function createBusinessUser(user) {
-    console.log("Sending user:", user); // sanity check
+    console.log("Sending user:", user); 
     const res = await fetch("http://localhost:8080/api/business-users", {
         method: "POST",
         headers: {
@@ -135,8 +131,6 @@ export async function createBusinessUser(user) {
     return await res.json();
 }
 
-
-// Login user
 export async function loginBasicUser(credentials) {
     const res = await fetch("http://localhost:8080/api/basic-users/login", {
         method: "POST",
@@ -144,7 +138,7 @@ export async function loginBasicUser(credentials) {
         body: JSON.stringify(credentials),
         mode: "cors"
     });
-    return await res.text(); // returns "Login successful" or error message
+    return await res.text(); 
 }
 
 export async function loginProUser(credentials) {
@@ -154,7 +148,7 @@ export async function loginProUser(credentials) {
         body: JSON.stringify(credentials),
         mode: "cors"
     });
-    return await res.text(); // returns "Login successful" or error message
+    return await res.text(); 
 }
 
 export async function loginBusinessUser(credentials) {
@@ -164,7 +158,7 @@ export async function loginBusinessUser(credentials) {
         body: JSON.stringify(credentials),
         mode: "cors"
     });
-    return await res.text(); // returns "Login successful" or error message
+    return await res.text(); 
 }
 
 export async function findBasicUserByUsername(username) {
@@ -194,7 +188,6 @@ export async function findBusinessUserByUsername(username) {
     return await res.json();
 }
 
-// Fetch payments
 export async function getPaymentsByProUserId(proUserId) {
   const res = await fetch(`http://localhost:8080/payment/proUser/${proUserId}`, {
     method: "GET",
@@ -245,7 +238,6 @@ export async function getSubPaymentsByBusinessUserId(businessUserId) {
     return await res.json();
 }
 
-//Bookings
 export async function getBookingsByProUserId(proUserId) {
   const res = await fetch(`http://localhost:8080/api/bookings/proUser/${proUserId}`, {
     method: "GET",
@@ -266,7 +258,6 @@ export async function getBookingsByBusinessUserId(businessUserId) {
   return await res.json();
 }
 
-//user bookings
 export async function createBooking(booking) {
   try {
     const response = await fetch("http://localhost:8080/api/bookings", {
@@ -306,7 +297,6 @@ export async function createPayment(payment) {
     return await res.json();
 }
 
-// GET user by ID
 export async function getBasicUserById(userId) {
     const res = await fetch(`http://localhost:8080/api/basic-users/${userId}`, {
         method: "GET",
@@ -317,7 +307,6 @@ export async function getBasicUserById(userId) {
     return await res.json();
 }
 
-// PATCH update user
 export async function updateBasicUser(userId, updates) {
     const res = await fetch(`http://localhost:8080/api/basic-users/${userId}`, {
         method: "PATCH",
@@ -329,7 +318,6 @@ export async function updateBasicUser(userId, updates) {
     return await res.json();
 }
 
-// DELETE user
 export async function deleteBasicUser(userId) {
     const res = await fetch(`http://localhost:8080/api/basic-users/${userId}`, {
         method: "DELETE",
@@ -340,7 +328,6 @@ export async function deleteBasicUser(userId) {
     return true;
 }
 
-// business user routes
 export async function getBusinessUserById(userId) {
     const res = await fetch(`http://localhost:8080/api/business-users/${userId}`, {
         method: "GET",
@@ -372,7 +359,6 @@ export async function deleteBusinessUser(userId) {
     return true;
 }
 
-// pro user routes
 export async function getProUserById(userId) {
     const res = await fetch(`http://localhost:8080/api/pro-users/${userId}`, {
         method: "GET",
@@ -420,7 +406,6 @@ export async function getUserCars(userId, userType) {
     return await res.json();
 }
 
-//Subscription Payments
 export async function createSubscriptionPayment(userId, userType, paymentRequest) {
     const res = await fetch(
         `http://localhost:8080/Subscription/create?userId=${userId}&userType=${userType}`,

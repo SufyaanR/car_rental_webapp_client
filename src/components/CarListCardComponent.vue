@@ -22,13 +22,11 @@ function goToDetails() {
 
 <template>
   <div class="car-card">
-    <!-- Image -->
     <div class="car-image">
       <img :src="image || placeholderImage" :alt="`${make} ${model}`" />
       <div v-if="!image" class="no-image-overlay">No Image Available</div>
     </div>
 
-    <!-- Info -->
     <div class="car-info">
       <h2 class="car-make">{{ brand  }}</h2>
       <p class="car-model">{{ model }}</p>
@@ -63,7 +61,6 @@ function goToDetails() {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
-/* Image section */
 .car-image {
   position: relative;
   width: 100%;
@@ -92,7 +89,6 @@ function goToDetails() {
   font-size: 0.9rem;
 }
 
-/* Info section */
 .car-info {
   padding: 1rem 1.2rem;
 }
@@ -110,7 +106,6 @@ function goToDetails() {
   margin-bottom: 0.8rem;
 }
 
-/* Footer section */
 .car-footer {
   display: flex;
   align-items: center;

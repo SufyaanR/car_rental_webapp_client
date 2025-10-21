@@ -11,12 +11,10 @@ function logout() {
 
 <template>
   <header class="navbar">
-    <!-- Logo Icon Link -->
     <RouterLink to="/user/home" class="logo">
       <i class="fas fa-car-side"></i>
     </RouterLink>
 
-    <!-- Nav Links -->
     <nav class="nav-links">
       <RouterLink to="/user/home">Home</RouterLink>
       <RouterLink to="/user/cars">Rent Cars</RouterLink>
@@ -33,7 +31,7 @@ function logout() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #7F0000; /* dark red */
+  background-color: #7F0000; 
   padding: 10px 30px;
   width: 100%;
 }

@@ -41,7 +41,6 @@ function getCarImage(car) {
 
 <style scoped>
 
-/* title styling */
 .title {
   text-align: center;
   font-size: 2rem;
@@ -49,7 +48,6 @@ function getCarImage(car) {
   margin-bottom: 2rem;
 }
 
-/* flex container */
 .car-grid {
   display: flex;
   flex-wrap: wrap;
@@ -60,9 +58,8 @@ function getCarImage(car) {
   margin: 0 auto;
 }
 
-/* ensure cards have consistent size */
 .car-grid > * {
-  flex: 1 1 calc(25% - 2rem); /* 4 per row */
+  flex: 1 1 calc(25% - 2rem); 
   max-width: 320px;
   min-width: 260px;
 }

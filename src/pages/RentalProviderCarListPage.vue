@@ -1,11 +1,11 @@
 <script setup>
-import RentalProviderCarListComponent from '../components/RentalProviderCarListComponent.vue';
+import RentalProviderCarlistComponent from "../components/RentalProviderCarlistComponent.vue";
 </script>
 
 <template>
   <div class="rental-provider-carlist-page">
     <h1 class="title">My Car Listings</h1>
-    <RentalProviderCarListComponent />
+    <RentalProviderCarlistComponent />
   </div>
 </template>
 

@@ -3,7 +3,6 @@ defineProps({
   emailAddress: {type:String, default:"defaultEmail"}
 })
 
-// this is a dummy component to demonstrate how a component can be structured
 </script>
 
 <template>
