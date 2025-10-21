@@ -3,7 +3,7 @@ import { ref } from "vue";
 import {
   createBasicUser,
   createBusinessUser,
-  createProUser,
+  createProUser, createSubscriptionPayment,
   findBasicUserByUsername, findBusinessUserByUsername,
   findProUserByUsername
 } from "../routes/routes.js";
@@ -101,11 +101,25 @@ async function onCreatedUser() {
       userId = await findBasicUserByUsername(user.username);
     } else if (user.userType === "PRO") {
       userId = await findProUserByUsername(user.username);
+      console.log("Found PRO user:", userId);
+      console.log("Found PRO userId:", userId.userId);
+
     } else {
       userId = await findBusinessUserByUsername(user.username);
     }
 
-// Save to localStorage **before routing**
+    if (createdUser.userType === "PRO" || createdUser.userType === "BUSINESS") {
+      const paymentRequest = {
+        amount: 100.00, // must be numeric
+        paymentDate: new Date().toISOString().split("T")[0], // "YYYY-MM-DD"
+        paymentTime: new Date().toLocaleTimeString("en-GB", { hour12: false })
+      };
+
+      const payment = await createSubscriptionPayment(userId.userId, createdUser.userType, paymentRequest);
+      console.log("Subscription payment created:", payment);
+      alert("Subscription payment of R100 created for your account.");
+    }
+
     localStorage.setItem("authenticatedUserId", userId.userId);
     localStorage.setItem("username", user.username);
     localStorage.setItem("userType", user.userType);

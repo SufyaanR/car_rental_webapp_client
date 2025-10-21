@@ -72,4 +72,8 @@ const userId = ref(localStorage.getItem("authenticatedUserId"));
 .logout-btn:hover {
   color: #282121;
 }
+
+.nav-links >>> .router-link-active {
+  color: #282121;
+}
 </style>

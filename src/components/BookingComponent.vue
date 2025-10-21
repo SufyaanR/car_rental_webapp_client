@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, defineProps, defineEmits } from "vue";
 import { createBooking, createPayment, getCar } from "../routes/routes.js";
+import jsPDF from "jspdf";
 
 const props = defineProps({
   car: { type: Object, required: true }
@@ -77,6 +78,7 @@ async function submitPayment() {
   try {
     loading.value = true;
 
+    // Format expiry date
     let formattedExpiryDate = expiryDate.value;
     if (/^\d{2}\/\d{2}$/.test(expiryDate.value)) {
       const [month, year] = expiryDate.value.split("/").map(Number);
@@ -98,10 +100,23 @@ async function submitPayment() {
       booking: { bookingId: bookingId.value }
     };
 
-    console.log("Prepared payment payload:", paymentData);
-    await createPayment(paymentData);
+    // 1️⃣ Call your backend to create payment
+    const paymentResponse = await createPayment(paymentData);
+
+    // 2️⃣ Make sure car info is available
+    fullCar.value = await getCar(props.car.carId);
 
     alert("Payment successful!");
+
+    // 3️⃣ Ask user if they want to download invoice
+    if (confirm("Do you want to download your invoice?")) {
+      downloadInvoice(
+          { bookingId: bookingId.value, startDate: startDate.value, endDate: endDate.value, totalPrice: totalAmount.value },
+          paymentResponse,
+          fullCar.value
+      );
+    }
+
     closeModal();
   } catch (error) {
     console.error("Payment failed:", error);
@@ -111,6 +126,56 @@ async function submitPayment() {
   }
 }
 
+function downloadInvoice(booking, payment, car) {
+  const doc = new jsPDF();
+
+  // Add logo or header box
+  doc.setFillColor(127, 0, 0); // dark red
+  doc.rect(0, 0, 210, 25, "F"); // top header
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(18);
+  doc.text("Rental Car Invoice", 105, 17, { align: "center" });
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(12);
+
+  // Booking info box
+  doc.setFillColor(245, 245, 245); // light gray
+  doc.rect(10, 35, 190, 50, "F");
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFont(undefined, "bold");
+  doc.text("Booking Details", 15, 45);
+
+  doc.setFont(undefined, "normal");
+  doc.text(`Booking ID: ${booking.bookingId}`, 15, 55);
+  doc.text(`Car: ${car.brand} ${car.model}`, 15, 63);
+  doc.text(`Start Date: ${booking.startDate}`, 15, 71);
+  doc.text(`End Date: ${booking.endDate}`, 15, 79);
+  doc.text(`Total Price: R${booking.totalPrice.toFixed(2)}`, 15, 87);
+
+  // Payment info box
+  doc.setFillColor(245, 245, 245);
+  doc.rect(10, 95, 190, 40, "F");
+
+  doc.setFont(undefined, "bold");
+  doc.text("Payment Details", 15, 105);
+
+  doc.setFont(undefined, "normal");
+  doc.text(`Status: ${payment.paymentStatus}`, 15, 115);
+  doc.text(`Paid Amount: R${payment.amount.toFixed(2)}`, 15, 123);
+  doc.text(`Payment Date: ${payment.paymentDate}`, 15, 131);
+
+  // Footer
+  doc.setFont(undefined, "bold");
+  doc.text("Thank you for booking with us!", 105, 150, { align: "center" });
+  doc.setFont(undefined, "normal");
+  doc.setTextColor(100);
+  doc.setFontSize(10);
+  doc.text("Contact us at support@rentalcars.com", 105, 160, { align: "center" });
+
+  doc.save(`Invoice_${booking.bookingId}.pdf`);
+}
 
 function closeModal() {
   startDate.value = "";

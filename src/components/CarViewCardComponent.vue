@@ -86,6 +86,8 @@ function closeBooking() {
   padding: 30px;
   width: 90vw;
   border: 1px solid #333;
+  margin-left: 4vw;
+
 }
 
 .form-wrapper h1 {

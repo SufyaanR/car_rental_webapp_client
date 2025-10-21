@@ -118,14 +118,23 @@ export async function createProUser(user) {
 }
 
 export async function createBusinessUser(user) {
+    console.log("Sending user:", user); // sanity check
     const res = await fetch("http://localhost:8080/api/business-users", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+        },
         body: JSON.stringify(user),
-        mode: "cors"
     });
+
+    if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`Error ${res.status}: ${text}`);
+    }
+
     return await res.json();
 }
+
 
 // Login user
 export async function loginBasicUser(credentials) {
@@ -410,5 +419,26 @@ export async function getUserCars(userId, userType) {
 
     return await res.json();
 }
+
+//Subscription Payments
+export async function createSubscriptionPayment(userId, userType, paymentRequest) {
+    const res = await fetch(
+        `http://localhost:8080/Subscription/create?userId=${userId}&userType=${userType}`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            mode: "cors",
+            body: JSON.stringify(paymentRequest)
+        }
+    );
+    if (!res.ok) {
+        throw new Error("Failed to create subscription payment");
+    }
+    return await res.json();
+}
+
+
 
 
