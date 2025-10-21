@@ -4,7 +4,6 @@ import { RouterLink } from "vue-router";
 
 <template>
   <div class="home-container">
-    <!-- Hero Section -->
     <section class="hero">
       <div class="overlay"></div>
       <div class="hero-content">
@@ -16,7 +15,6 @@ import { RouterLink } from "vue-router";
       </div>
     </section>
 
-    <!-- Features Section -->
     <section class="features">
       <div class="feature">
         <i class="fas fa-car-side"></i>
@@ -37,7 +35,6 @@ import { RouterLink } from "vue-router";
       </div>
     </section>
 
-    <!-- About Section -->
     <section class="about">
       <h2>Empowering Vehicle Owners</h2>
       <p>
@@ -51,7 +48,6 @@ import { RouterLink } from "vue-router";
 </template>
 
 <style scoped>
-/* Base Layout */
 .home-container {
   display: flex;
   flex-direction: column;
@@ -61,7 +57,6 @@ import { RouterLink } from "vue-router";
   min-height: 100vh;
 }
 
-/* Hero Section */
 .hero {
   position: relative;
   background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop')
@@ -118,7 +113,6 @@ import { RouterLink } from "vue-router";
   transform: translateY(-2px);
 }
 
-/* Features Section */
 .features {
   display: flex;
   justify-content: center;
@@ -150,7 +144,6 @@ import { RouterLink } from "vue-router";
   margin-bottom: 15px;
 }
 
-/* About Section */
 .about {
   background-color: #181818;
   text-align: center;
@@ -182,7 +175,6 @@ import { RouterLink } from "vue-router";
   text-decoration: underline;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .title {
     font-size: 2.2rem;

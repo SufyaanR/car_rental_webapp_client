@@ -20,7 +20,6 @@ import AccountPage from '../pages/AccountPage.vue';
 import RentalProviderAccountPage from '../pages/RentalProviderAccountPage.vue';
 import RentalProviderCarListPage from '../pages/RentalProviderCarListPage.vue';
 
-//Renders page components when user navigates
 const routes = [
     { path: '/', redirect: '/auth/login' },
     {path: '/auth', component: AuthLayout, children: [
@@ -48,7 +47,7 @@ const routes = [
             {path: 'contact', name: 'ContactUsPage', component: ContactUsPage},
             {path: 'account', name: 'AccountPage', component: AccountPage}
         ]},
-    {path: '/:catchAll(.*)*', name: "PageNotFound", component: PageNotFound} //This catches our error page not found
+    {path: '/:catchAll(.*)*', name: "PageNotFound", component: PageNotFound} 
 ];
 
 const router = createRouter({

@@ -72,7 +72,7 @@ const submitForm = () => {
   justify-content: space-between;
   background: #3b3b3b;
   border-radius: 20px;
-  width: 80vw; /* Wider form layout */
+  width: 80vw; 
   max-width: 1300px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
   overflow: hidden;
@@ -156,7 +156,6 @@ textarea:focus {
   background: #a00000;
 }
 
-/* Responsive */
 @media (max-width: 968px) {
   .contact-container {
     flex-direction: column;

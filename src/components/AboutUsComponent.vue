@@ -3,7 +3,6 @@
 
 <template>
   <div class="about-page">
-    <!-- Hero Section -->
     <section class="hero">
       <div class="overlay"></div>
       <div class="hero-content">
@@ -12,7 +11,6 @@
       </div>
     </section>
 
-    <!-- Our Story -->
     <section class="story">
       <div class="story-text">
         <h2>Who We Are</h2>
@@ -38,7 +36,6 @@
       </div>
     </section>
 
-    <!-- Mission & Values -->
     <section class="values">
       <h2>Our Mission & Values</h2>
       <div class="value-grid">
@@ -71,7 +68,6 @@
       </div>
     </section>
 
-    <!-- Call To Action -->
     <section class="cta">
       <h2>Ready to start your journey?</h2>
       <p>Explore our range of cars and find your perfect ride today.</p>
@@ -90,7 +86,6 @@
   gap: 80px;
 }
 
-/* Hero Section */
 .hero {
   position: relative;
   background: url("https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1200&auto=format&fit=crop")
@@ -125,7 +120,6 @@
   color: #f0f0f0;
 }
 
-/* Story Section */
 .story {
   display: flex;
   flex-wrap: wrap;
@@ -165,7 +159,6 @@
   box-shadow: 0 0 20px rgba(127, 0, 0, 0.4);
 }
 
-/* Values Section */
 .values {
   text-align: center;
   padding: 60px 10%;
@@ -207,7 +200,6 @@
   margin-bottom: 15px;
 }
 
-/* CTA Section */
 .cta {
   text-align: center;
   padding: 80px 20px;
@@ -241,7 +233,6 @@
   transform: translateY(-2px);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .story {
     flex-direction: column;

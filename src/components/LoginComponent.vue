@@ -11,11 +11,10 @@ import {
 
 const router = useRouter();
 
-// Form state
 const form = ref({
   username: "",
   password: "",
-  userType: "", // BASIC / PRO / BUSINESS
+  userType: "", 
 });
 
 const handleLogin = async () => {
@@ -84,7 +83,6 @@ const handleLogin = async () => {
     <div class="login-card">
       <h2 class="card-title">Login</h2>
       <form @submit.prevent="handleLogin" class="login-form">
-        <!-- Username -->
         <div class="form-group">
           <label>Username</label>
           <input
@@ -95,7 +93,6 @@ const handleLogin = async () => {
           />
         </div>
 
-        <!-- Password -->
         <div class="form-group">
           <label>Password</label>
           <input
@@ -106,9 +103,7 @@ const handleLogin = async () => {
           />
         </div>
 
-        <!-- inside your form -->
         <div class="form-inner">
-          <!-- username/password groups here -->
 
           <div class="form-group user-type-group">
             <label>User Type</label>
@@ -145,35 +140,31 @@ const handleLogin = async () => {
 </template>
 
 <style scoped>
-/* Outer page: center card vertically & horizontally */
 .login-page {
-  min-height: 100vh;         /* full height so centering works */
+  min-height: 100vh;        
   display: grid;
-  place-items: center;       /* perfect centering */
-  padding: 24px;             /* breathing room on small screens */
+  place-items: center;       
+  padding: 24px;             
   box-sizing: border-box;
 }
 
-/* Card: keep centered, responsive max width */
 .login-card {
   background: #3b3b3b;
   padding: 36px;
   border-radius: 14px;
   width: 92vw;
-  max-width: 900px;          /* controls overall width */
+  max-width: 900px;          
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
   color: #eee;
   box-sizing: border-box;
 }
 
-/* Title stays large and visually centered */
 .card-title {
   margin: 0 0 22px 0;
   font-size: 2rem;
   color: white;
 }
 
-/* Form container: center inside card but keep labels left-aligned */
 .login-form {
   display: flex;
   flex-direction: column;
@@ -181,15 +172,13 @@ const handleLogin = async () => {
   width: 100%;
 }
 
-/* Limit inner content width so controls don't go edge-to-edge if card is very wide */
 .login-form .form-inner {
   width: 100%;
-  max-width: 800px;   /* keeps content comfortable on very wide screens */
-  margin: 0 auto;     /* center the inner content horizontally inside the card */
+  max-width: 800px;   
+  margin: 0 auto;     
   box-sizing: border-box;
 }
 
-/* Labels are left-aligned (unchanged) */
 .form-group label {
   display: block;
   margin-bottom: 8px;
@@ -198,7 +187,6 @@ const handleLogin = async () => {
   font-weight: 700;
 }
 
-/* Inputs fill the inner content width */
 .form-group input {
   width: 100%;
   padding: 12px 14px;
@@ -209,63 +197,55 @@ const handleLogin = async () => {
   font-size: 1rem;
 }
 
-/* Focus style */
 .form-group input:focus {
   outline: 2px solid #7f0000;
 }
 
-/* User-type group: center the label and make the radio row full-width */
 .user-type-group {
   display: flex;
   flex-direction: column;
-  align-items: center;     /* center the label */
+  align-items: center;     
   width: 100%;
 }
 
-/* Center the "User Type" label */
 .user-type-group > label {
-  text-align: center;      /* center label text */
+  text-align: center;      
   width: 100%;
   margin-bottom: 12px;
   font-weight: 700;
   color: #ddd;
 }
 
-/* Radio row: spread radio items evenly across available width */
 .radio-row {
   display: flex;
   width: 100%;
-  justify-content: space-between; /* evenly spaced across the row */
+  justify-content: space-between; 
   gap: 12px;
   align-items: center;
   box-sizing: border-box;
-  max-width: 700px;        /* optional: avoid extreme stretching on huge screens */
+  max-width: 700px;        
 }
 
-/* Each radio item keep label and input next to each other */
 .radio-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1;                 /* allow even distribution */
+  flex: 1;                 
   gap: 6px;
 }
 
-/* Style the radio input (modern browsers support accent-color) */
 .radio-row input[type="radio"] {
   margin: 0;
   accent-color: #7f0000;
   transform: scale(1.0);
 }
 
-/* Small text under each radio (Basic/Pro/Business) */
 .radio-item span {
   margin-top: 6px;
   color: #ddd;
   font-weight: 600;
 }
 
-/* Login button - full width of the inner content */
 .login-btn {
   background-color: #7f0000;
   color: white;
@@ -277,18 +257,16 @@ const handleLogin = async () => {
   cursor: pointer;
   width: 100%;
   max-width: 800px;
-  margin: 6px auto 0 auto; /* center button within inner area */
+  margin: 6px auto 0 auto; 
 }
 
-/* Signup text centered */
 .signup-text {
   margin-top: 16px;
   color: #ccc;
   font-size: 0.95rem;
-  text-align: center;      /* centered per your request */
+  text-align: center;      
 }
 
-/* Signup link style */
 .signup-link {
   color: #ff7f7f;
   font-weight: 700;
@@ -296,7 +274,6 @@ const handleLogin = async () => {
   margin-left: 8px;
 }
 
-/* Responsive tweaks */
 @media (max-width: 768px) {
   .login-card {
     padding: 24px;

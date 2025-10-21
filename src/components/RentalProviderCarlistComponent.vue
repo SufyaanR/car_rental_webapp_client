@@ -21,7 +21,7 @@ function getCarImage(car) {
   if (car.image) {
     return `data:image/jpeg;base64,${car.image}`;
   }
-  return null; // The card component will use placeholder if null
+  return null; 
 }
 </script>
 

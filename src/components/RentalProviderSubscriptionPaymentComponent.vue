@@ -65,17 +65,14 @@ onMounted(fetchSubscriptions);
         <thead>
           <tr>
             <th>Subscription ID</th>
-            <th>Plan Name</th>
             <th>Amount</th>
             <th>Payment Date</th>
             <th>Payment Time</th>
-            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="sub in subscriptions" :key="sub.subscriptionPaymentId">
-            <td>{{ sub.subscription?.subscriptionPaymentId }}</td>
-            <td>{{ sub.subscription?.planName }}</td>
+            <td>{{ sub.subscriptionPaymentId }}</td>
             <td>{{ sub.amount }}</td>
             <td>{{ sub.paymentDate }}</td>
             <td>{{ sub.paymentTime }}</td>

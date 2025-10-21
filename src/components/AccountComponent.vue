@@ -11,7 +11,6 @@ if (!userId) {
   router.push("/auth/login");
 }
 
-// Reactive form data matching backend DTO
 const form = ref({
   userId: null,
   firstName: "",
@@ -33,7 +32,6 @@ onMounted(async () => {
   try {
     currentUser = await getBasicUserById(userId);
 
-    // Map backend to form safely
     form.value = {
       userId: currentUser.userId,
       firstName: currentUser.firstName || "",
@@ -44,7 +42,7 @@ onMounted(async () => {
       phoneNumber: currentUser.phoneNumber || "",
       userType: currentUser.userType || "",
       username: currentUser.username || "",
-      password: "", // never prefill password
+      password: "", 
       login: currentUser.login ?? true,
       bookCar: currentUser.bookCar || null
     };
@@ -58,7 +56,6 @@ const saveChanges = async () => {
   try {
     if (!currentUser) return;
 
-    // ✅ Require password to be entered
     if (!form.value.password || form.value.password.trim() === "") {
       alert("You must enter a password to save changes.");
       return;
@@ -66,22 +63,21 @@ const saveChanges = async () => {
 
     const payload = {
       ...form.value,
-      userId: currentUser.userId,        // ensure ID is included
-      userType: currentUser.userType     // preserve enum
+      userId: currentUser.userId,        
+      userType: currentUser.userType     
     };
 
-    // Ensure dateOfBirth is YYYY-MM-DD
     if (payload.dateOfBirth && typeof payload.dateOfBirth === "string") {
       payload.dateOfBirth = payload.dateOfBirth.split("T")[0];
     }
 
-    console.log("Payload being sent:", payload); // debug
+    console.log("Payload being sent:", payload); 
 
     const updatedUser = await updateBasicUser(userId, payload);
 
     form.value = {
       ...updatedUser,
-      password: "" // reset password
+      password: "" 
     };
     currentUser = updatedUser;
 
